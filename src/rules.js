@@ -1,3 +1,6 @@
+const factos= document.querySelectorAll(".factories")
+
+
 class Partie {
   constructor(nbOfPlayers) {
     this.nbOfPlayers = nbOfPlayers;
@@ -68,7 +71,11 @@ class Partie {
   startTour() {
     for (let i = 0; i < this.nbOfFactories; i++) {
       this.factories[i] = this.tilesStack.splice(0, 4);
+      for(let j=0;j<this.factories[i];j++){
+        factos[i].innerHTML=``;
+      }
     }
+    
     console.log(this.factories); //ajouter le check dtu tilesstack vide
     return this.factories;
   }
