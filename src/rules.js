@@ -32,6 +32,7 @@ class Partie {
   }
 
   shufflesStack() {
+    this.definesTilesStack();
     for (let i = this.tilesStack.length - 1; i >= 0; i--) {
       var randomInt = Math.floor(Math.random() * this.tilesStack.length);
       var x = this.tilesStack[randomInt];
@@ -51,6 +52,7 @@ class Partie {
   }
 
   definesFactories() {
+    this.definesFactoryNb();
     var factory = [];
     for (let i = 0; i < this.nbOfFactories; i++) {
       this.factories.push(factory);
@@ -58,11 +60,16 @@ class Partie {
     return this.factories;
   }
 
+  startGame() {
+    this.shufflesStack();
+    this.definesFactories();
+  }
+
   startTour() {
     for (let i = 0; i < this.nbOfFactories; i++) {
       this.factories[i] = this.tilesStack.splice(0, 4);
     }
-    console.log(this.factories);
+    console.log(this.factories); //ajouter le check dtu tilesstack vide
     return this.factories;
   }
 }
@@ -133,60 +140,76 @@ class Player {
     this.malusPoints = 0;
   }
 
-  hasEmptySpots(line){
-    var emptySpots =0
-    for (let j=0;j<this.preparation[line].length;j++){
-      if (this.preparation[line][j].value===0){
-        emptySpots += 1
+  hasEmptySpots(line) {
+    var emptySpots = 0;
+    for (let j = 0; j < this.preparation[line].length; j++) {
+      if (this.preparation[line][j].value === 0) {
+        emptySpots += 1;
       }
-    } return emptySpots;
+    }
+    return emptySpots;
+  }
+
+  checksLineColor(line, chosenColor) {
+    for (let j = 0; j < this.preparation[line].length; j++) {
+      if (
+        this.preparation[line][j].color != chosenColor &&
+        this.preparation[line][j].color != ""
+      ) {
+        console.log(
+          "You cannot place your tile here coquinou, choose another line"
+        );
+        return false;
+      } else {
+        return true;
+      }
+    }
+  }
+
+  checksTileIsFree(line, chosenColor) {
+    for (let j = 0; j < this.grid[line].length; j++) {
+      if (this.grid[line][j].color === chosenColor) {
+        if (this.grid[line][j].value === 1) {
+          console.log(
+            "You cannot place your tile here dummy,choose another line"
+          );
+          return false;
+        } else {
+          return true;
+        }
+      }
+    }
   }
   plays(factory, chosenColor, chosenLine) {
     var colorCounter = 0;
-    var letsKeepPlaying = true;
+    var emptySpots = this.hasEmptySpots(chosenLine);
+    var tilesToPlace = 0;
     for (let i = 0; i < factory.length; i++) {
       if (factory[i] === chosenColor) {
         colorCounter += 1;
       }
     }
-    for (let j = 0; j < this.preparation[chosenLine].length; j++) {
-      if (
-        this.preparation[chosenLine][j].color != chosenColor &&
-        this.preparation[chosenLine][j].color != ""
-      ) {
-        console.log(
-          "You cannot place your tile here coquinou, choose another line"
-        );
-        letsKeepPlaying = false;
-      }
-    }
-    for (let j = 0; j < this.grid[chosenLine].length; j++) {
-      if (this.grid[chosenLine][j].color === chosenColor) {
-        if (this.grid[chosenLine][j].value === 1) {
-          console.log(
-            "You cannot place your tile here dummy,choose another line"
-          );
-          letsKeepPlaying = false;
-        }
-      }
-    }
-    this.hasEmptySpots(chosenLine);
-    if (letsKeepPlaying === true) {
-      if (this.preparation[chosenLine].length>=colorCounter){
-        this.malusPoints += colorCounter-this.preparation[chosenLine].length;
-        //colorCounter=
+
+    if (
+      this.checksLineColor(chosenLine, chosenColor) &&
+      this.checksTileIsFree(chosenLine, chosenColor)
+    ) {
+      //ajouter le delete de la factory choisie si on ne peut pas le gérer avec le DOM
+      if (emptySpots <= colorCounter) {
+        this.malusPoints += colorCounter - emptySpots;
+        tilesToPlace = emptySpots;
       } else {
-        
+        tilesToPlace = colorCounter;
       }
-      for (let j = 0; j < this.preparation[chosenLine].length; j++) {
+      for (let j = 0; j < tilesToPlace; j++) {
         if (this.preparation[chosenLine][j].value === 0) {
           this.preparation[chosenLine][j].value = 1;
-          this.preparation[chosenLine][j].color =chosenColor
+          this.preparation[chosenLine][j].color = chosenColor;
+        } else {
+          tilesToPlace += 1;
         }
-        
       }
       console.log(this.preparation);
-     
     }
   }
   makesWall() {
@@ -209,8 +232,10 @@ class Player {
 
   calculatePoints() {
     for (let i = 0; i < this.grid.length; i++) {
+      var lineTotal =0
       for (let j = 0; j < this.grid[i].length; j++) {
         if (this.grid[i][j].value === 1) {
+          lineTotal+=1
           if (this.grid[i][j].point === 0) {
             this.grid[i][j].point = 1;
             this.totalPoints += 1;
@@ -235,25 +260,27 @@ class Player {
             }
           }
         }
+      } if (lineTotal===5){
+          console.log(`the player finished the game`)
+
       }
     }
     console.log(this.grid);
     console.log(this.totalPoints);
-    return this.totalPoints;
+    return this.totalPoints - this.malusPoints;
   }
 }
 
+
+
 var partie1 = new Partie(2);
 var player1 = new Player();
+var player2 = new Player();
 
-partie1.definesFactoryNb();
-partie1.definesFactories();
-partie1.definesTilesStack();
-partie1.shufflesStack();
+partie1.startGame();
 partie1.startTour();
 
 console.log("---------------");
 player1.plays(partie1.factories[1], "r", 1);
-
-player1.makesWall();
-player1.calculatePoints();
+console.log(partie1.factories);
+player2.plays(partie1.factories[2], "b", 2);
