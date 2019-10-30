@@ -100,11 +100,19 @@ h2 {
 .pioche{
     background-color: #ba7;
     width: 370px;
-    height:60px;
+    height:80px;
     opacity:0.7;
     border-radius: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
 }
-.white{
+
+.white {
+    background-color:whitesmoke;
+}
+.white.tile {
     background-color:whitesmoke;
 }
 .inactive {

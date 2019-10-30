@@ -11,7 +11,7 @@ class Partie {
     this.brownTiles = [];
     this.nbOfTiles = this.tilesNbByColor * 5;
     this.tilesStack = [];
-    this.pioche=[];
+    this.pioche = [];
   }
 
   definesTilesStack() {
@@ -58,6 +58,7 @@ class Partie {
     for (let i = 0; i < this.nbOfFactories; i++) {
       this.factories.push(factory);
     }
+    this.factories.push(this.pioche);
     return this.factories;
   }
 
@@ -74,8 +75,6 @@ class Partie {
     //ajouter le check dtu tilesstack vide
     return this.factories;
   }
-
-  
 }
 
 class Player {
@@ -142,7 +141,7 @@ class Player {
     ];
     this.totalPoints = 0;
     this.malusPoints = 0;
-    this.tilesToPlace =0
+    this.tilesToPlace = 0;
   }
 
   hasEmptySpots(line) {
@@ -193,9 +192,9 @@ class Player {
     for (let i = 0; i < factory.length; i++) {
       if (factory[i] === chosenColor) {
         colorCounter += 1;
-      } else{
-        game.pioche.push(factory[i]); 
-        console.log(game.pioche)
+      } else {
+        game.pioche.push(factory[i]);
+        //console.log(game.pioche)
       }
     }
 
@@ -203,7 +202,6 @@ class Player {
       this.checksLineColor(chosenLine, chosenColor) &&
       this.checksTileIsFree(chosenLine, chosenColor)
     ) {
-      
       if (emptySpots <= colorCounter) {
         this.malusPoints += colorCounter - emptySpots;
         this.tilesToPlace = emptySpots;
@@ -214,14 +212,12 @@ class Player {
         if (this.preparation[chosenLine][j].value === 0) {
           this.preparation[chosenLine][j].value = 1;
           this.preparation[chosenLine][j].color = chosenColor;
-
         } else {
           this.tilesToPlace += 1;
         }
       }
-      
     }
-    return this.tilesToPlace
+    return this.tilesToPlace;
   }
   makesWall() {
     for (let i = 0; i < this.preparation.length; i++) {

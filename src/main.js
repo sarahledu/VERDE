@@ -1,6 +1,6 @@
 const btnStart = document.getElementById("start-button");
 const factos = document.querySelectorAll(".factory-tile-container");
-const pioche = document.querySelector(".factory-tile-container.pioche")
+const pioche = document.querySelector(".factory-tile-container.pioche");
 
 function letsGetThisPartyStarted() {
   var partie = new Partie(2);
@@ -9,7 +9,6 @@ function letsGetThisPartyStarted() {
 
   const btnTurnP1 = document.getElementById("btn-player1");
   const btnTurnP2 = document.getElementById("btn-player2");
-  
 
   partie.startGame();
   partie.startTour();
@@ -22,12 +21,13 @@ function letsGetThisPartyStarted() {
       ].innerHTML += `<span class="tile white ${partie.factories[i][j]}"></span`;
     }
   }
-  
-  function updatePioche(){
-    for (let i=0; i<partie.pioche.length;i++){
-      pioche.innerHTML +=`<span class="tile white ${partie.pioche[i]}"></span>`
+
+  function updatePioche() {
+    pioche.innerHTML = "";
+    for (let i = 0; i < partie.pioche.length; i++) {
+      pioche.innerHTML += `<span class="tile white ${partie.pioche[i]}"></span>`;
     }
-}
+  }
 
   function player1plays(cb) {
     function chooseFacto(e, factory) {
@@ -47,22 +47,25 @@ function letsGetThisPartyStarted() {
             tempArr.slice(9, 13),
             tempArr.slice(13, 15)
           );
+          console.log(emptyTilesArr)
           const tiles = document.querySelectorAll("#player1 .empty-tiles");
           tiles.forEach((t, i) => {
             t.onclick = function() {
               const line = Math.floor(i / 5);
-              player1.plays(factory, chosenTile, line,partie);
+              player1.plays(factory, chosenTile, line, partie);
               for (let j = 0; j < player1.tilesToPlace; j++) {
-                emptyTilesArr[line][j].className += `white tile ${chosenTile}`;
+                emptyTilesArr[line][j].className = `empty-tiles visible white tile ${chosenTile}`;
               }
               tiles.forEach(t => {
                 t.onclick = null;
               });
-              console.log(currentFactoryNode);
+
+              updatePioche();
+
               currentFactoryNode.remove();
-              updatePioche()
             };
           });
+
           elem.onclick = null;
         };
       });
@@ -71,6 +74,7 @@ function letsGetThisPartyStarted() {
       facto.onclick = e => chooseFacto(e, partie.factories[i]);
     });
   }
+
 
   function player2plays(cb) {
     function chooseFacto(e, factory) {
@@ -96,15 +100,18 @@ function letsGetThisPartyStarted() {
               const line = Math.floor(i / 5);
               player2.plays(factory, chosenTile, line, partie);
               for (let j = 0; j < player2.tilesToPlace; j++) {
-                emptyTilesArr[line][j].className += `white tile ${chosenTile}`;
+                emptyTilesArr[line][j].className += ` white tile ${chosenTile}`;
               }
               tiles.forEach(t => {
                 t.onclick = null;
               });
-              console.log(currentFactoryNode);
+
+              updatePioche();
+
               currentFactoryNode.remove();
             };
           });
+
           elem.onclick = null;
         };
       });
