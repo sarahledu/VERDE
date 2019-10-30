@@ -47,22 +47,37 @@ function letsGetThisPartyStarted() {
             tempArr.slice(9, 13),
             tempArr.slice(13, 15)
           );
-          console.log(emptyTilesArr)
+          console.log(emptyTilesArr);
           const tiles = document.querySelectorAll("#player1 .empty-tiles");
           tiles.forEach((t, i) => {
             t.onclick = function() {
               const line = Math.floor(i / 5);
               player1.plays(factory, chosenTile, line, partie);
               for (let j = 0; j < player1.tilesToPlace; j++) {
-                emptyTilesArr[line][j].className = `empty-tiles visible white tile ${chosenTile}`;
+                emptyTilesArr[line][
+                  j
+                ].className = `empty-tiles visible white tile ${chosenTile}`;
               }
               tiles.forEach(t => {
                 t.onclick = null;
               });
-
-              updatePioche();
-
-              currentFactoryNode.remove();
+              if (currentFactoryNode !== pioche) {
+                currentFactoryNode.remove();
+                updatePioche();
+              } else {
+                for (let i = 0; i < partie.pioche.length; i++) {
+                  if (partie.pioche[i] === chosenTile) {
+                    console.log(partie.pioche);
+                    partie.pioche.splice(i, 1);
+                    console.log(partie.pioche);
+                    updatePioche();
+                  }
+                }
+              }
+              if (partie.endTour() === true) {
+                player1.makesWall();
+                player1.calculatePoints();
+              }
             };
           });
 
@@ -74,7 +89,6 @@ function letsGetThisPartyStarted() {
       facto.onclick = e => chooseFacto(e, partie.factories[i]);
     });
   }
-
 
   function player2plays(cb) {
     function chooseFacto(e, factory) {
@@ -105,10 +119,24 @@ function letsGetThisPartyStarted() {
               tiles.forEach(t => {
                 t.onclick = null;
               });
+              if (currentFactoryNode !== pioche) {
+                currentFactoryNode.remove();
+                updatePioche();
+              } else {
+                for (let i = 0; i < partie.pioche.length; i++) {
+                  if (partie.pioche[i] === chosenTile) {
+                    console.log(partie.pioche);
+                    partie.pioche.splice(i, 1);
+                    console.log(partie.pioche);
+                    updatePioche();
+                  }
+                }
+              }
 
-              updatePioche();
-
-              currentFactoryNode.remove();
+              if (partie.endTour() === true) {
+                player2.makesWall();
+                player2.calculatePoints();
+              }
             };
           });
 

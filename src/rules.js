@@ -75,6 +75,20 @@ class Partie {
     //ajouter le check dtu tilesstack vide
     return this.factories;
   }
+
+  endTour() {
+    var counter = 0;
+    for (let i = 0; i < this.factories.length; i++) {
+      if (this.factories[i].length === 0) {
+        counter += 1;
+      }
+    }
+    if (counter === this.factories.length) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 }
 
 class Player {
@@ -185,7 +199,7 @@ class Player {
     }
   }
   plays(factory, chosenColor, chosenLine, game) {
-    console.log("heeeere");
+   
     var colorCounter = 0;
     var emptySpots = this.hasEmptySpots(chosenLine);
     this.tilesToPlace = 0;
@@ -193,7 +207,9 @@ class Player {
       if (factory[i] === chosenColor) {
         colorCounter += 1;
       } else {
-        game.pioche.push(factory[i]);
+        if (factory != game.pioche){
+          game.pioche.push(factory[i]);
+        }
         //console.log(game.pioche)
       }
     }
