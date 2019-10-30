@@ -1,6 +1,3 @@
-const factos= document.querySelectorAll(".factories")
-
-
 class Partie {
   constructor(nbOfPlayers) {
     this.nbOfPlayers = nbOfPlayers;
@@ -14,6 +11,7 @@ class Partie {
     this.brownTiles = [];
     this.nbOfTiles = this.tilesNbByColor * 5;
     this.tilesStack = [];
+    this.pioche=[];
   }
 
   definesTilesStack() {
@@ -71,14 +69,13 @@ class Partie {
   startTour() {
     for (let i = 0; i < this.nbOfFactories; i++) {
       this.factories[i] = this.tilesStack.splice(0, 4);
-      for(let j=0;j<this.factories[i];j++){
-        factos[i].innerHTML=``;
-      }
     }
-    
-    console.log(this.factories); //ajouter le check dtu tilesstack vide
+
+    //ajouter le check dtu tilesstack vide
     return this.factories;
   }
+
+  
 }
 
 class Player {
@@ -145,6 +142,7 @@ class Player {
     ];
     this.totalPoints = 0;
     this.malusPoints = 0;
+    this.tilesToPlace =0
   }
 
   hasEmptySpots(line) {
@@ -187,13 +185,17 @@ class Player {
       }
     }
   }
-  plays(factory, chosenColor, chosenLine) {
+  plays(factory, chosenColor, chosenLine, game) {
+    console.log("heeeere");
     var colorCounter = 0;
     var emptySpots = this.hasEmptySpots(chosenLine);
-    var tilesToPlace = 0;
+    this.tilesToPlace = 0;
     for (let i = 0; i < factory.length; i++) {
       if (factory[i] === chosenColor) {
         colorCounter += 1;
+      } else{
+        game.pioche.push(factory[i]); 
+        console.log(game.pioche)
       }
     }
 
@@ -201,23 +203,25 @@ class Player {
       this.checksLineColor(chosenLine, chosenColor) &&
       this.checksTileIsFree(chosenLine, chosenColor)
     ) {
-      //ajouter le delete de la factory choisie si on ne peut pas le gérer avec le DOM
+      
       if (emptySpots <= colorCounter) {
         this.malusPoints += colorCounter - emptySpots;
-        tilesToPlace = emptySpots;
+        this.tilesToPlace = emptySpots;
       } else {
-        tilesToPlace = colorCounter;
+        this.tilesToPlace = colorCounter;
       }
-      for (let j = 0; j < tilesToPlace; j++) {
+      for (let j = 0; j < this.tilesToPlace; j++) {
         if (this.preparation[chosenLine][j].value === 0) {
           this.preparation[chosenLine][j].value = 1;
           this.preparation[chosenLine][j].color = chosenColor;
+
         } else {
-          tilesToPlace += 1;
+          this.tilesToPlace += 1;
         }
       }
-      console.log(this.preparation);
+      
     }
+    return this.tilesToPlace
   }
   makesWall() {
     for (let i = 0; i < this.preparation.length; i++) {
@@ -239,10 +243,10 @@ class Player {
 
   calculatePoints() {
     for (let i = 0; i < this.grid.length; i++) {
-      var lineTotal =0
+      var lineTotal = 0;
       for (let j = 0; j < this.grid[i].length; j++) {
         if (this.grid[i][j].value === 1) {
-          lineTotal+=1
+          lineTotal += 1;
           if (this.grid[i][j].point === 0) {
             this.grid[i][j].point = 1;
             this.totalPoints += 1;
@@ -267,9 +271,9 @@ class Player {
             }
           }
         }
-      } if (lineTotal===5){
-          console.log(`the player finished the game`)
-
+      }
+      if (lineTotal === 5) {
+        console.log(`the player finished the game`);
       }
     }
     console.log(this.grid);
@@ -277,17 +281,3 @@ class Player {
     return this.totalPoints - this.malusPoints;
   }
 }
-
-
-
-var partie1 = new Partie(2);
-var player1 = new Player();
-var player2 = new Player();
-
-partie1.startGame();
-partie1.startTour();
-
-console.log("---------------");
-player1.plays(partie1.factories[1], "r", 1);
-console.log(partie1.factories);
-player2.plays(partie1.factories[2], "b", 2);

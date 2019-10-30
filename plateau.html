@@ -10,15 +10,17 @@
 </head>
 
 <body>
+    <nav><button id="start-button">Start the Game</button></nav>
     <div class="container">
         <div class="left-screen">
             <div class="player-grids player1">
-                <div>
+                <div class="grid-top">
                     <h2>Player 1</h2>
+                    <button id="btn-player1" class="turn">My turn to play</button>
                 </div>
 
                 <div class="actual-grids">
-                    <div class="preparation grid">
+                    <div id="player1" class="preparation grid">
                         <span class="empty-tiles"></span>
                         <span class="empty-tiles"></span>
                         <span class="empty-tiles"></span>
@@ -75,12 +77,13 @@
                 </div>
             </div>
             <div class="player-grids player2">
-                <div>
+                <div class="grid-top">
                     <h2>Player 2</h2>
+                    <button id="btn-player2" class="turn"> My time to shine</button>
                 </div>
 
                 <div class="actual-grids">
-                    <div class="preparation grid">
+                    <div id="player2" class="preparation grid">
                         <span class="empty-tiles"></span>
                         <span class="empty-tiles"></span>
                         <span class="empty-tiles"></span>
@@ -140,46 +143,34 @@
         </div>
 
         <div class="factories">
-            <div class="top"> 
+
+            <div class="top">
                 <div class="factory">
-                    <div class="tile"></div>
-                    <div class="tile"></div>
-                    <div class="tile"></div>
-                    <div class="tile"></div>
+                    <div class="factory-tile-container"></div>
                 </div>
             </div>
             <div class="middle">
                 <div class="factory">
-                    <div class="tile"></div>
-                    <div class="tile"></div>
-                    <div class="tile"></div>
-                    <div class="tile"></div>
+                    <div class="factory-tile-container"></div>
                 </div>
                 <div class="factory">
-                    <div class="tile"></div>
-                    <div class="tile"></div>
-                    <div class="tile"></div>
-                    <div class="tile"></div>
+                    <div class="factory-tile-container"></div>
                 </div>
                 <div class="factory">
-                    <div class="tile"></div>
-                    <div class="tile"></div>
-                    <div class="tile"></div>
-                    <div class="tile"></div>
+                    <div class="factory-tile-container"></div>
                 </div>
             </div>
             <div class="bottom">
                 <div class="factory">
-                    <div class="tile"></div>
-                    <div class="tile"></div>
-                    <div class="tile"></div>
-                    <div class="tile"></div>
+                    <div class="factory-tile-container"></div>
                 </div>
             </div>
 
-
+            <div class="factory pioche"> <div class="factory-tile-container pioche"></div></div>
         </div>
     </div>
+    <script src="/src/main.js"></script>
+    <script src="/src/rules.js"></script>
 </body>
 
 </html>
