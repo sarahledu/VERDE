@@ -13,6 +13,11 @@ h2 {
     font-size: 20px;
     color: #7A9
 }
+
+.bin{
+    width:30px;
+    height: 30px;
+}
 .container{
     display: flex;
 }
@@ -116,7 +121,7 @@ h2 {
     background-color:whitesmoke;
 }
 .inactive {
-    opacity: 0.3;
+    opacity: 0.1;
 }
 
 .br {

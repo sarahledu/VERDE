@@ -71,14 +71,13 @@ class Partie {
     for (let i = 0; i < this.nbOfFactories; i++) {
       this.factories[i] = this.tilesStack.splice(0, 4);
     }
-
-    //ajouter le check dtu tilesstack vide
     return this.factories;
   }
 
   endTour() {
     var counter = 0;
     for (let i = 0; i < this.factories.length; i++) {
+      console.log(this.factories[i]);
       if (this.factories[i].length === 0) {
         counter += 1;
       }
@@ -156,6 +155,7 @@ class Player {
     this.totalPoints = 0;
     this.malusPoints = 0;
     this.tilesToPlace = 0;
+    this.bean = 0;
   }
 
   hasEmptySpots(line) {
@@ -198,8 +198,17 @@ class Player {
       }
     }
   }
+  isInTheShit(color, game) {
+    var counter = 0;
+    for (let i = 0; i < game.pioche.length; i++) {
+      if (game.pioche[i] === color) {
+        game.pioche.splice(i, 1);
+        counter += 1;
+      }
+    }
+    this.malusPoints += counter;
+  }
   plays(factory, chosenColor, chosenLine, game) {
-   
     var colorCounter = 0;
     var emptySpots = this.hasEmptySpots(chosenLine);
     this.tilesToPlace = 0;
@@ -207,11 +216,19 @@ class Player {
       if (factory[i] === chosenColor) {
         colorCounter += 1;
       } else {
-        if (factory != game.pioche){
+        if (factory != game.pioche) {
           game.pioche.push(factory[i]);
         }
-        //console.log(game.pioche)
       }
+      if (factory == game.pioche) {
+        if (factory[i] === chosenColor) {
+          factory.splice(i, 1);
+        }
+      }
+    }
+
+    if (factory != game.pioche) {
+      factory.splice(0, 4);
     }
 
     if (

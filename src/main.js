@@ -1,6 +1,29 @@
 const btnStart = document.getElementById("start-button");
 const factos = document.querySelectorAll(".factory-tile-container");
 const pioche = document.querySelector(".factory-tile-container.pioche");
+const gridPlayer1 = Array.from(
+  document.querySelectorAll("#player1-grid.grid > .tile")
+);
+const gridPlayer2 = Array.from(
+  document.querySelectorAll("#player2-grid.grid > .tile")
+);
+
+var gridP1 = [];
+var gridP2 = [];
+gridP1.push(
+  gridPlayer1.slice(0, 5),
+  gridPlayer1.slice(5, 10),
+  gridPlayer1.slice(10, 15),
+  gridPlayer1.slice(15, 20),
+  gridPlayer1.slice(20, 25)
+);
+gridP2.push(
+  gridPlayer2.slice(0, 5),
+  gridPlayer2.slice(5, 10),
+  gridPlayer2.slice(10, 15),
+  gridPlayer2.slice(15, 20),
+  gridPlayer2.slice(20, 25)
+);
 
 function letsGetThisPartyStarted() {
   var partie = new Partie(2);
@@ -29,6 +52,16 @@ function letsGetThisPartyStarted() {
     }
   }
 
+  function updateGrid(gridP, player) {
+    for (let i = 0; i < gridP.length; i++) {
+      for (let j = 0; j < gridP[i].length; j++) {
+        if (player.grid[i][j].value === 1) {
+          gridP[i][j].classList.remove("inactive");
+        }
+      }
+    }
+  }
+
   function player1plays(cb) {
     function chooseFacto(e, factory) {
       let currentFactoryNode = e.target;
@@ -39,6 +72,9 @@ function letsGetThisPartyStarted() {
           const tempArr = Array.from(
             document.querySelectorAll("#player1 .empty-tiles.visible")
           );
+          const tiles = document.querySelectorAll("#player1 .empty-tiles");
+          const trash = document.querySelector("#bin-player1.bin");
+          console.log(trash);
           const emptyTilesArr = [];
           emptyTilesArr.push(
             tempArr.slice(0, 1),
@@ -47,8 +83,26 @@ function letsGetThisPartyStarted() {
             tempArr.slice(9, 13),
             tempArr.slice(13, 15)
           );
-          console.log(emptyTilesArr);
-          const tiles = document.querySelectorAll("#player1 .empty-tiles");
+
+          trash.onclick = function() {
+            player1.isInTheShit(chosenTile, partie);
+            for (let i = 0; i < partie.pioche.length; i++) {
+              if (partie.pioche[i] === chosenTile) {
+                partie.pioche.splice(i, 1);
+              }
+            }
+            updatePioche();
+            if (partie.endTour() === true) {
+              console.log;
+              player1.makesWall();
+              player2.makesWall();
+              updateGrid(gridP1, player1);
+              updateGrid(gridP2, player2);
+              player1.calculatePoints();
+              player2.calculatePoints();
+            }
+          };
+
           tiles.forEach((t, i) => {
             t.onclick = function() {
               const line = Math.floor(i / 5);
@@ -65,18 +119,15 @@ function letsGetThisPartyStarted() {
                 currentFactoryNode.remove();
                 updatePioche();
               } else {
-                for (let i = 0; i < partie.pioche.length; i++) {
-                  if (partie.pioche[i] === chosenTile) {
-                    console.log(partie.pioche);
-                    partie.pioche.splice(i, 1);
-                    console.log(partie.pioche);
-                    updatePioche();
-                  }
-                }
+                updatePioche();
               }
               if (partie.endTour() === true) {
                 player1.makesWall();
+                player2.makesWall();
+                updateGrid(gridP1, player1);
+                updateGrid(gridP2, player2);
                 player1.calculatePoints();
+                player2.calculatePoints();
               }
             };
           });
@@ -100,6 +151,9 @@ function letsGetThisPartyStarted() {
           const tempArr = Array.from(
             document.querySelectorAll("#player2 .empty-tiles.visible")
           );
+          const tiles = document.querySelectorAll("#player2 .empty-tiles");
+          const trash = document.querySelector("#bin-player2.bin");
+
           const emptyTilesArr = [];
           emptyTilesArr.push(
             tempArr.slice(0, 1),
@@ -108,13 +162,33 @@ function letsGetThisPartyStarted() {
             tempArr.slice(9, 13),
             tempArr.slice(13, 15)
           );
-          const tiles = document.querySelectorAll("#player2 .empty-tiles");
+
+          trash.onclick = function() {
+            player2.isInTheShit(chosenTile, partie);
+            for (let i = 0; i < partie.pioche.length; i++) {
+              if (partie.pioche[i] === chosenTile) {
+                partie.pioche.splice(i, 1);
+              }
+            }
+            updatePioche();
+            if (partie.endTour() === true) {
+              player1.makesWall();
+              player2.makesWall();
+              updateGrid(gridP1, player1);
+              updateGrid(gridP2, player2);
+              player1.calculatePoints();
+              player2.calculatePoints();
+            }
+          };
+
           tiles.forEach((t, i) => {
             t.onclick = function() {
               const line = Math.floor(i / 5);
               player2.plays(factory, chosenTile, line, partie);
               for (let j = 0; j < player2.tilesToPlace; j++) {
-                emptyTilesArr[line][j].className += ` white tile ${chosenTile}`;
+                emptyTilesArr[line][
+                  j
+                ].className = `empty-tiles visible white tile ${chosenTile}`;
               }
               tiles.forEach(t => {
                 t.onclick = null;
@@ -123,18 +197,14 @@ function letsGetThisPartyStarted() {
                 currentFactoryNode.remove();
                 updatePioche();
               } else {
-                for (let i = 0; i < partie.pioche.length; i++) {
-                  if (partie.pioche[i] === chosenTile) {
-                    console.log(partie.pioche);
-                    partie.pioche.splice(i, 1);
-                    console.log(partie.pioche);
-                    updatePioche();
-                  }
-                }
+                updatePioche();
               }
-
               if (partie.endTour() === true) {
+                player1.makesWall();
                 player2.makesWall();
+                updateGrid(gridP1, player1);
+                updateGrid(gridP2, player2);
+                player1.calculatePoints();
                 player2.calculatePoints();
               }
             };
