@@ -264,7 +264,11 @@ class Player {
         for (let j = 0; j < this.grid[i].length; j++) {
           if (this.grid[i][j].color === this.preparation[i][0].color) {
             this.grid[i][j].value = 1;
+            
           }
+        }
+        for (let j=0; j<this.preparation[i].length;j++){
+          this.preparation[i][j].value=0;
         }
       }
     }

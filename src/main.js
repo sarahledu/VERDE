@@ -25,6 +25,18 @@ gridP2.push(
   gridPlayer2.slice(20, 25)
 );
 
+function createsPrepGrid(tempArr) {
+  const emptyTilesArr = [];
+  emptyTilesArr.push(
+    tempArr.slice(0, 1),
+    tempArr.slice(1, 4),
+    tempArr.slice(4, 9),
+    tempArr.slice(9, 13),
+    tempArr.slice(13, 15)
+  );
+  return emptyTilesArr;
+}
+
 function letsGetThisPartyStarted() {
   var partie = new Partie(2);
   var player1 = new Player();
@@ -32,6 +44,12 @@ function letsGetThisPartyStarted() {
 
   const btnTurnP1 = document.getElementById("btn-player1");
   const btnTurnP2 = document.getElementById("btn-player2");
+  const tempArr1 = Array.from(
+    document.querySelectorAll("#player1 .empty-tiles.visible")
+  );
+  const tempArr2 = Array.from(
+    document.querySelectorAll("#player2 .empty-tiles.visible")
+  );
 
   partie.startGame();
   partie.startTour();
@@ -62,6 +80,29 @@ function letsGetThisPartyStarted() {
     }
   }
 
+  function updatePrep(tempArr,player) {
+    var emptyTilesArr= createsPrepGrid(tempArr);
+    for (let i=0; i<emptyTilesArr.length;i++){
+      for (let j=0; j<emptyTilesArr[i].length;j++){
+        if(player.preparation[i][j].value === 0){
+          emptyTilesArr[i][j].className= `empty-tiles visible`;
+        }
+      }
+    }
+  }
+
+  function checksEndTour() {
+    if (partie.endTour() === true) {
+      player1.makesWall();
+      player2.makesWall();
+      updateGrid(gridP1, player1);
+      updateGrid(gridP2, player2);
+      updatePrep(tempArr1,player1);
+      updatePrep(tempArr2,player2);
+      player1.calculatePoints();
+      player2.calculatePoints();
+    }
+  }
   function player1plays(cb) {
     function chooseFacto(e, factory) {
       let currentFactoryNode = e.target;
@@ -69,21 +110,10 @@ function letsGetThisPartyStarted() {
       tileElements.forEach(elem => {
         elem.onclick = e => {
           const chosenTile = e.target.className.split(" ")[2];
-          const tempArr = Array.from(
-            document.querySelectorAll("#player1 .empty-tiles.visible")
-          );
+
           const tiles = document.querySelectorAll("#player1 .empty-tiles");
           const trash = document.querySelector("#bin-player1.bin");
-          console.log(trash);
-          const emptyTilesArr = [];
-          emptyTilesArr.push(
-            tempArr.slice(0, 1),
-            tempArr.slice(1, 4),
-            tempArr.slice(4, 9),
-            tempArr.slice(9, 13),
-            tempArr.slice(13, 15)
-          );
-
+          const emptyTilesArr =createsPrepGrid(tempArr1);
           trash.onclick = function() {
             player1.isInTheShit(chosenTile, partie);
             for (let i = 0; i < partie.pioche.length; i++) {
@@ -92,15 +122,6 @@ function letsGetThisPartyStarted() {
               }
             }
             updatePioche();
-            if (partie.endTour() === true) {
-              console.log;
-              player1.makesWall();
-              player2.makesWall();
-              updateGrid(gridP1, player1);
-              updateGrid(gridP2, player2);
-              player1.calculatePoints();
-              player2.calculatePoints();
-            }
           };
 
           tiles.forEach((t, i) => {
@@ -120,15 +141,9 @@ function letsGetThisPartyStarted() {
                 updatePioche();
               } else {
                 updatePioche();
+                checksEndTour();
               }
-              if (partie.endTour() === true) {
-                player1.makesWall();
-                player2.makesWall();
-                updateGrid(gridP1, player1);
-                updateGrid(gridP2, player2);
-                player1.calculatePoints();
-                player2.calculatePoints();
-              }
+              checksEndTour();
             };
           });
 
@@ -148,20 +163,10 @@ function letsGetThisPartyStarted() {
       tileElements.forEach(elem => {
         elem.onclick = e => {
           const chosenTile = e.target.className.split(" ")[2];
-          const tempArr = Array.from(
-            document.querySelectorAll("#player2 .empty-tiles.visible")
-          );
+
           const tiles = document.querySelectorAll("#player2 .empty-tiles");
           const trash = document.querySelector("#bin-player2.bin");
-
-          const emptyTilesArr = [];
-          emptyTilesArr.push(
-            tempArr.slice(0, 1),
-            tempArr.slice(1, 4),
-            tempArr.slice(4, 9),
-            tempArr.slice(9, 13),
-            tempArr.slice(13, 15)
-          );
+          const emptyTilesArr= createsPrepGrid(tempArr2);
 
           trash.onclick = function() {
             player2.isInTheShit(chosenTile, partie);
@@ -171,14 +176,7 @@ function letsGetThisPartyStarted() {
               }
             }
             updatePioche();
-            if (partie.endTour() === true) {
-              player1.makesWall();
-              player2.makesWall();
-              updateGrid(gridP1, player1);
-              updateGrid(gridP2, player2);
-              player1.calculatePoints();
-              player2.calculatePoints();
-            }
+            checksEndTour();
           };
 
           tiles.forEach((t, i) => {
@@ -199,14 +197,7 @@ function letsGetThisPartyStarted() {
               } else {
                 updatePioche();
               }
-              if (partie.endTour() === true) {
-                player1.makesWall();
-                player2.makesWall();
-                updateGrid(gridP1, player1);
-                updateGrid(gridP2, player2);
-                player1.calculatePoints();
-                player2.calculatePoints();
-              }
+              checksEndTour();
             };
           });
 
