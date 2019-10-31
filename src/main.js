@@ -58,7 +58,12 @@ function letsGetThisPartyStarted() {
 
   partie.startGame();
   overlay.classList.remove("is-active")
-  partie.startTour();
+  
+  function newTour(){
+    partie.startTour();
+    
+  }
+  newTour()
 
   function fillFactos() {
     for (let i = 0; i < partie.factories.length; i++) {
@@ -104,8 +109,8 @@ function letsGetThisPartyStarted() {
     var pointsP1 = player1.calculatePoints();
     console.log(pointsP1);
     var pointsP2 = player2.calculatePoints();
-    pointArea1.textContent =`${pointsP1}`;
-    pointArea2.textContent=`${pointsP2}`;
+    pointArea1.textContent =`Score : ${pointsP1}`;
+    pointArea2.textContent=`Score : ${pointsP2}`;
   }
   function checksEndTour() {
     if (partie.endTour() === true) {
@@ -131,7 +136,7 @@ function letsGetThisPartyStarted() {
       tileElements.forEach(elem => {
         elem.onclick = e => {
           const chosenTile = e.target.className.split(" ")[2];
-
+          console.log(chosenTile)
           const tiles = document.querySelectorAll("#player1 .empty-tiles");
           const trash = document.querySelector("#bin-player1.bin");
           const emptyTilesArr = createsPrepGrid(tempArr1);

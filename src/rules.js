@@ -89,7 +89,6 @@ class Partie {
   endTour() {
     var counter = 0;
     for (let i = 0; i < this.factories.length; i++) {
-      console.log(this.factories[i]);
       if (this.factories[i].length === 0) {
         counter += 1;
       }
@@ -181,11 +180,13 @@ class Player {
   }
 
   checksLineColor(line, chosenColor) {
+    console.log(this.preparation);
     for (let j = 0; j < this.preparation[line].length; j++) {
       if (
         this.preparation[line][j].color != chosenColor &&
         this.preparation[line][j].color != ""
       ) {
+        console.log(this.preparation[line][j].color);
         console.log(
           "You cannot place your tile here coquinou, choose another line"
         );
@@ -279,6 +280,7 @@ class Player {
           }
         }
         for (let j = 0; j < this.preparation[i].length; j++) {
+          this.preparation[i][j].color = "";
           this.preparation[i][j].value = 0;
         }
       }
@@ -287,7 +289,7 @@ class Player {
 
   calculatePoints() {
     for (let i = 0; i < this.grid.length; i++) {
-      var lineTotal=0;
+      var lineTotal = 0;
       for (let j = 0; j < this.grid[i].length; j++) {
         if (this.grid[i][j].value === 1) {
           lineTotal += 1;
