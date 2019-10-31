@@ -66,7 +66,19 @@ class Partie {
     this.shufflesStack();
     this.definesFactories();
   }
-
+  endGame(player) {
+    for (let i = 0; i < player.grid.length; i++) {
+      var lineTot = 0;
+      for (let j = 0; j < player.grid[i].length; j++) {
+        if (player.grid[i][j].value === 1) {
+          lineTot += 1;
+        }
+      }
+      if (lineTot === 5) {
+        return true;
+      } else return false;
+    }
+  }
   startTour() {
     for (let i = 0; i < this.nbOfFactories; i++) {
       this.factories[i] = this.tilesStack.splice(0, 4);
@@ -264,11 +276,10 @@ class Player {
         for (let j = 0; j < this.grid[i].length; j++) {
           if (this.grid[i][j].color === this.preparation[i][0].color) {
             this.grid[i][j].value = 1;
-            
           }
         }
-        for (let j=0; j<this.preparation[i].length;j++){
-          this.preparation[i][j].value=0;
+        for (let j = 0; j < this.preparation[i].length; j++) {
+          this.preparation[i][j].value = 0;
         }
       }
     }
@@ -276,7 +287,7 @@ class Player {
 
   calculatePoints() {
     for (let i = 0; i < this.grid.length; i++) {
-      var lineTotal = 0;
+      var lineTotal=0;
       for (let j = 0; j < this.grid[i].length; j++) {
         if (this.grid[i][j].value === 1) {
           lineTotal += 1;
@@ -305,12 +316,8 @@ class Player {
           }
         }
       }
-      if (lineTotal === 5) {
-        console.log(`the player finished the game`);
-      }
     }
-    console.log(this.grid);
-    console.log(this.totalPoints);
+
     return this.totalPoints - this.malusPoints;
   }
 }

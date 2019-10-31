@@ -7,6 +7,11 @@ const gridPlayer1 = Array.from(
 const gridPlayer2 = Array.from(
   document.querySelectorAll("#player2-grid.grid > .tile")
 );
+const pointArea1 = document.getElementById("point-area-player1");
+const pointArea2 = document.getElementById("point-area-player2");
+const overlay= document.getElementById("overlay")
+console.log(pointArea2);
+console.log(pointArea1)
 
 var gridP1 = [];
 var gridP2 = [];
@@ -52,16 +57,20 @@ function letsGetThisPartyStarted() {
   );
 
   partie.startGame();
+  overlay.classList.remove("is-active")
   partie.startTour();
 
-  for (let i = 0; i < partie.factories.length; i++) {
-    factos[i].innerHTML = "";
-    for (let j = 0; j < partie.factories[i].length; j++) {
-      factos[
-        i
-      ].innerHTML += `<span class="tile white ${partie.factories[i][j]}"></span`;
+  function fillFactos() {
+    for (let i = 0; i < partie.factories.length; i++) {
+      factos[i].innerHTML = "";
+      for (let j = 0; j < partie.factories[i].length; j++) {
+        factos[
+          i
+        ].innerHTML += `<span class="tile white ${partie.factories[i][j]}"></span`;
+      }
     }
   }
+  fillFactos();
 
   function updatePioche() {
     pioche.innerHTML = "";
@@ -80,27 +89,39 @@ function letsGetThisPartyStarted() {
     }
   }
 
-  function updatePrep(tempArr,player) {
-    var emptyTilesArr= createsPrepGrid(tempArr);
-    for (let i=0; i<emptyTilesArr.length;i++){
-      for (let j=0; j<emptyTilesArr[i].length;j++){
-        if(player.preparation[i][j].value === 0){
-          emptyTilesArr[i][j].className= `empty-tiles visible`;
+  function updatePrep(tempArr, player) {
+    var emptyTilesArr = createsPrepGrid(tempArr);
+    for (let i = 0; i < emptyTilesArr.length; i++) {
+      for (let j = 0; j < emptyTilesArr[i].length; j++) {
+        if (player.preparation[i][j].value === 0) {
+          emptyTilesArr[i][j].className = `empty-tiles visible`;
         }
       }
     }
   }
 
+  function displayPoints() {
+    var pointsP1 = player1.calculatePoints();
+    console.log(pointsP1);
+    var pointsP2 = player2.calculatePoints();
+    pointArea1.textContent =`${pointsP1}`;
+    pointArea2.textContent=`${pointsP2}`;
+  }
   function checksEndTour() {
     if (partie.endTour() === true) {
       player1.makesWall();
       player2.makesWall();
       updateGrid(gridP1, player1);
       updateGrid(gridP2, player2);
-      updatePrep(tempArr1,player1);
-      updatePrep(tempArr2,player2);
-      player1.calculatePoints();
-      player2.calculatePoints();
+      updatePrep(tempArr1, player1);
+      updatePrep(tempArr2, player2);
+      displayPoints();
+      if (partie.endGame(player1) || partie.endGame(player2)) {
+        overlay.classList.add("is-active")
+      } else {
+        partie.startTour();
+        fillFactos();
+      }
     }
   }
   function player1plays(cb) {
@@ -113,7 +134,7 @@ function letsGetThisPartyStarted() {
 
           const tiles = document.querySelectorAll("#player1 .empty-tiles");
           const trash = document.querySelector("#bin-player1.bin");
-          const emptyTilesArr =createsPrepGrid(tempArr1);
+          const emptyTilesArr = createsPrepGrid(tempArr1);
           trash.onclick = function() {
             player1.isInTheShit(chosenTile, partie);
             for (let i = 0; i < partie.pioche.length; i++) {
@@ -137,7 +158,7 @@ function letsGetThisPartyStarted() {
                 t.onclick = null;
               });
               if (currentFactoryNode !== pioche) {
-                currentFactoryNode.remove();
+                currentFactoryNode.innerHTML = "";
                 updatePioche();
               } else {
                 updatePioche();
@@ -166,7 +187,7 @@ function letsGetThisPartyStarted() {
 
           const tiles = document.querySelectorAll("#player2 .empty-tiles");
           const trash = document.querySelector("#bin-player2.bin");
-          const emptyTilesArr= createsPrepGrid(tempArr2);
+          const emptyTilesArr = createsPrepGrid(tempArr2);
 
           trash.onclick = function() {
             player2.isInTheShit(chosenTile, partie);
@@ -192,7 +213,7 @@ function letsGetThisPartyStarted() {
                 t.onclick = null;
               });
               if (currentFactoryNode !== pioche) {
-                currentFactoryNode.remove();
+                currentFactoryNode.innerHTML = "";
                 updatePioche();
               } else {
                 updatePioche();
