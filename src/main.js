@@ -9,9 +9,9 @@ const gridPlayer2 = Array.from(
 );
 const pointArea1 = document.getElementById("point-area-player1");
 const pointArea2 = document.getElementById("point-area-player2");
-const overlay= document.getElementById("overlay")
+const overlay = document.getElementById("overlay");
 console.log(pointArea2);
-console.log(pointArea1)
+console.log(pointArea1);
 
 var gridP1 = [];
 var gridP2 = [];
@@ -57,13 +57,12 @@ function letsGetThisPartyStarted() {
   );
 
   partie.startGame();
-  overlay.classList.remove("is-active")
-  
-  function newTour(){
+  overlay.classList.remove("is-active");
+
+  function newTour() {
     partie.startTour();
-    
   }
-  newTour()
+  newTour();
 
   function fillFactos() {
     for (let i = 0; i < partie.factories.length; i++) {
@@ -109,8 +108,8 @@ function letsGetThisPartyStarted() {
     var pointsP1 = player1.calculatePoints();
     console.log(pointsP1);
     var pointsP2 = player2.calculatePoints();
-    pointArea1.textContent =`Score : ${pointsP1}`;
-    pointArea2.textContent=`Score : ${pointsP2}`;
+    pointArea1.textContent = `Score : ${pointsP1}`;
+    pointArea2.textContent = `Score : ${pointsP2}`;
   }
   function checksEndTour() {
     if (partie.endTour() === true) {
@@ -122,7 +121,7 @@ function letsGetThisPartyStarted() {
       updatePrep(tempArr2, player2);
       displayPoints();
       if (partie.endGame(player1) || partie.endGame(player2)) {
-        overlay.classList.add("is-active")
+        overlay.classList.add("is-active");
       } else {
         partie.startTour();
         fillFactos();
@@ -136,7 +135,7 @@ function letsGetThisPartyStarted() {
       tileElements.forEach(elem => {
         elem.onclick = e => {
           const chosenTile = e.target.className.split(" ")[2];
-          console.log(chosenTile)
+          console.log(chosenTile);
           const tiles = document.querySelectorAll("#player1 .empty-tiles");
           const trash = document.querySelector("#bin-player1.bin");
           const emptyTilesArr = createsPrepGrid(tempArr1);
@@ -148,6 +147,7 @@ function letsGetThisPartyStarted() {
               }
             }
             updatePioche();
+            checksEndTour();
           };
 
           tiles.forEach((t, i) => {
@@ -178,7 +178,7 @@ function letsGetThisPartyStarted() {
       });
     }
     factos.forEach((facto, i) => {
-      facto.onclick = e => chooseFacto(e, partie.factories[i]);
+      facto.onmouseover = e => chooseFacto(e, partie.factories[i]);
     });
   }
 
@@ -232,7 +232,7 @@ function letsGetThisPartyStarted() {
       });
     }
     factos.forEach((facto, i) => {
-      facto.onclick = e => chooseFacto(e, partie.factories[i]);
+      facto.onmouseover = e => chooseFacto(e, partie.factories[i]);
     });
   }
 
