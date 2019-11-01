@@ -7,11 +7,13 @@
     box-sizing: border-box;
     margin: 0;
     padding: 0;
+    font-family: 'Cinzel', serif;
 }
+
 
 h2 {
     font-size: 20px;
-    color: #7A9
+    color: #007676
 }
 
 .bin{
@@ -19,6 +21,10 @@ h2 {
     height: 30px;
 }
 
+.points{
+    width: 70px;
+    text-align:center;
+}
 #overlay {
     position: relative;
     height: 0vh;
@@ -37,14 +43,27 @@ h2 {
 }
 .container{
     display: flex;
+    justify-content: space-around;
 }
+.left-screen{
+      display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
 .player-grids {
     display: flex;
     flex-direction: column;
+    
+    
+    padding-bottom: 10px;
+    padding-top: 10px;
+    margin:5px;
 }
 
 .actual-grids {
-    display: flex
+    display: flex;
+    
 }
 
 .empty-tiles {
@@ -56,9 +75,12 @@ h2 {
     background-color: #fee;
 }
 .grid-top{
-    margin-top: 20px;
+    margin-bottom: 5px;
+    padding: 3px;
     display:flex;
     justify-content: space-around;
+    align-items: center;
+    border: 1px solid #fee;
 }
 .grid {
     display: grid;
@@ -91,8 +113,9 @@ h2 {
     
 }
 .factory:not(.pioche){
-    background-color: #ba7;
-    opacity:0.7;
+    background-color: #619B98;
+    background-image: url(../img/PNG/asfalt-dark.png);
+    opacity:0.5;
     border-radius: 50%;
     width: 120px;
     height: 120px;
@@ -100,8 +123,15 @@ h2 {
     display: flex;
     align-items: center;
     justify-content: center;
-    
-    
+      
+}
+
+.factory{
+    transition: all .2s ease-in-out; 
+}
+
+.factory:hover{
+    transform: scale(1.1);  
 }
 .factory-tile-container:not(.pioche){
     width: 100px;
@@ -117,13 +147,18 @@ h2 {
     margin : 5px;
     background-size: cover;
     z-index: 10;
+    transition: all .2s ease-in-out; 
+}
+.factory-tile-container > .tile:hover{
+    transform: scale(1.1); 
 }
 
 .pioche{
-    background-color: #ba7;
+    background-color: #619B98;
+    background-image: url(../img/PNG/asfalt-dark.png);
     width: 370px;
     height:80px;
-    opacity:0.7;
+    opacity:0.5;
     border-radius: 10px;
     display: flex;
     flex-wrap: wrap;
@@ -141,6 +176,26 @@ h2 {
     opacity: 0.1;
 }
 
+.turn.btn{
+    background: #fee;
+    padding: 5px;
+    border-width: 1px ;
+    border-top-color: #fee;
+    border-left-color: #fee;
+    color: #007676
+}
+.btn{
+    background-color: #007676;
+    padding: 5px;
+    border-width: 1px ;
+    border-top-color: #007676;
+    border-left-color: #007676;
+    color: #fee
+   
+}
+#start-button{
+    margin: 20px 0 0 20px;
+}
 .br {
     background-image: url(./../img/PNG/br.png);
 }
@@ -161,31 +216,7 @@ h2 {
 .b {
     background-image: url(./../img/PNG/b.png);
 }
-/* 
-.scale-up-center {
 
-	-webkit-animation: scale-up-center 0.4s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
-	        animation: scale-up-center 0.4s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
+#accueil{
+    background-image: url(/img/PNG/Parchemin.png);
 }
-
-@-webkit-keyframes scale-up-center {
-    0% {
-      -webkit-transform: scale(0);
-              transform: scale(0);
-    }
-    100% {
-      -webkit-transform: scale(1);
-              transform: scale(1);
-    }
-  }
-  @keyframes scale-up-center {
-    0% {
-      -webkit-transform: scale(0);
-              transform: scale(0);
-    }
-    100% {
-      -webkit-transform: scale(1);
-              transform: scale(1);
-    }
-  } */
-  
