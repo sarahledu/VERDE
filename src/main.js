@@ -113,6 +113,7 @@ function letsGetThisPartyStarted() {
   }
   function checksEndTour() {
     if (partie.endTour() === true) {
+      //const intervalId= setInterval(()=>{
       player1.makesWall();
       player2.makesWall();
       updateGrid(gridP1, player1);
@@ -120,12 +121,23 @@ function letsGetThisPartyStarted() {
       updatePrep(tempArr1, player1);
       updatePrep(tempArr2, player2);
       displayPoints();
+      console.log(partie.endGame(player1));
+      console.log(partie.endGame(player2));
       if (partie.endGame(player1) || partie.endGame(player2)) {
+        console.log("heeere");
         overlay.classList.add("is-active");
+        var winner = "";
+        if (partie.endGame(player1)) {
+          winner = "Player 1";
+        } else winner = "Player 2";
+        overlay.textContent = `The winner is ${winner}`;
       } else {
         partie.startTour();
-        fillFactos();
       }
+      //},2000)
+
+      //intervalId
+      fillFactos();
     }
   }
   function player1plays(cb) {

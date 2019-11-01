@@ -66,6 +66,7 @@ class Partie {
     this.shufflesStack();
     this.definesFactories();
   }
+
   endGame(player) {
     for (let i = 0; i < player.grid.length; i++) {
       var lineTot = 0;
@@ -74,12 +75,15 @@ class Partie {
           lineTot += 1;
         }
       }
-      if (lineTot === 5) {
+      if (lineTot == 2) {
         return true;
       } else return false;
     }
   }
   startTour() {
+    if (this.tilesStack.length<20){
+      this.shufflesStack();
+    }
     for (let i = 0; i < this.nbOfFactories; i++) {
       this.factories[i] = this.tilesStack.splice(0, 4);
     }
