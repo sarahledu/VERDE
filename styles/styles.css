@@ -10,21 +10,25 @@
     font-family: 'Cinzel', serif;
 }
 
+h1 {
+    color: #888395;
+}
 
 h2 {
     font-size: 20px;
     color: #007676
 }
 
-.bin{
-    width:30px;
+.bin {
+    width: 30px;
     height: 30px;
 }
 
-.points{
+.points {
     width: 70px;
-    text-align:center;
+    text-align: center;
 }
+
 #overlay {
     position: relative;
     height: 0vh;
@@ -38,15 +42,17 @@ h2 {
 }
 
 #overlay.is-active {
-    height:100vh;
+    height: 100vh;
     opacity: 1;
 }
-.container{
+
+.container {
     display: flex;
     justify-content: space-around;
 }
-.left-screen{
-      display: flex;
+
+.left-screen {
+    display: flex;
     flex-direction: column;
     justify-content: space-around;
 }
@@ -54,16 +60,16 @@ h2 {
 .player-grids {
     display: flex;
     flex-direction: column;
-    
-    
+
+
     padding-bottom: 10px;
     padding-top: 10px;
-    margin:5px;
+    margin: 5px;
 }
 
 .actual-grids {
     display: flex;
-    
+
 }
 
 .empty-tiles {
@@ -74,14 +80,16 @@ h2 {
 .empty-tiles.visible {
     background-color: #fee;
 }
-.grid-top{
+
+.grid-top {
     margin-bottom: 5px;
     padding: 3px;
-    display:flex;
+    display: flex;
     justify-content: space-around;
     align-items: center;
     border: 1px solid #fee;
 }
+
 .grid {
     display: grid;
     grid-template-columns: repeat(5, 20%);
@@ -102,38 +110,41 @@ h2 {
     */
 }
 
-.factories{
+.factories {
     display: flex;
     flex-direction: column;
     align-items: center;
     margin-top: 30px;
 }
-.middle{
+
+.middle {
     display: flex;
-    
+
 }
-.factory:not(.pioche){
+
+.factory:not(.pioche) {
     background-color: #619B98;
     background-image: url(../img/PNG/asfalt-dark.png);
-    opacity:0.5;
+    opacity: 0.5;
     border-radius: 50%;
     width: 120px;
     height: 120px;
-    margin:5px;
+    margin: 5px;
     display: flex;
     align-items: center;
     justify-content: center;
-      
+
 }
 
-.factory{
-    transition: all .2s ease-in-out; 
+.factory {
+    transition: all .2s ease-in-out;
 }
 
-.factory:hover{
-    transform: scale(1.1);  
+.factory:hover {
+    transform: scale(1.1);
 }
-.factory-tile-container:not(.pioche){
+
+.factory-tile-container:not(.pioche) {
     width: 100px;
     height: 100px;
     display: flex;
@@ -141,24 +152,26 @@ h2 {
     align-items: center;
     justify-content: center;
 }
-.factory-tile-container > .tile{
+
+.factory-tile-container>.tile {
     width: 30px;
     height: 30px;
-    margin : 5px;
+    margin: 5px;
     background-size: cover;
     z-index: 10;
-    transition: all .2s ease-in-out; 
-}
-.factory-tile-container > .tile:hover{
-    transform: scale(1.1); 
+    transition: all .2s ease-in-out;
 }
 
-.pioche{
+.factory-tile-container>.tile:hover {
+    transform: scale(1.1);
+}
+
+.pioche {
     background-color: #619B98;
     background-image: url(../img/PNG/asfalt-dark.png);
     width: 370px;
-    height:80px;
-    opacity:0.5;
+    height: 80px;
+    opacity: 0.5;
     border-radius: 10px;
     display: flex;
     flex-wrap: wrap;
@@ -167,35 +180,39 @@ h2 {
 }
 
 .white {
-    background-color:whitesmoke;
+    background-color: whitesmoke;
 }
+
 .white.tile {
-    background-color:whitesmoke;
+    background-color: whitesmoke;
 }
+
 .inactive {
     opacity: 0.1;
 }
 
-.turn.btn{
+.turn.btn {
     background: #fee;
     padding: 5px;
-    border-width: 1px ;
+    border-width: 1px;
     border-top-color: #fee;
     border-left-color: #fee;
     color: #007676
 }
-.btn{
+
+.btn {
     background-color: #007676;
     padding: 5px;
-    border-width: 1px ;
+    border-width: 1px;
     border-top-color: #007676;
     border-left-color: #007676;
     color: #fee
-   
 }
-#start-button{
+
+#start-button {
     margin: 20px 0 0 20px;
 }
+
 .br {
     background-image: url(./../img/PNG/br.png);
 }
@@ -217,6 +234,50 @@ h2 {
     background-image: url(./../img/PNG/b.png);
 }
 
-#accueil{
-    background-image: url(/img/PNG/Parchemin.png);
+#accueil {
+    /* background-image: url(./../img/PNG/parchemin3.png); */
+    background-color: whitesmoke;
+    border: 2px solid #888395;
+    width: 40vw;
+    height: 40vh;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    display: flex;
+    justify-items: center;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+}
+
+a {
+    margin: 10px;
+    color: #888395;
+
+}
+
+.paper {
+    background-image: url(./../img/PNG/natural-paper.png);
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    justify-items: center;
+    justify-content: center;
+    align-items: center;
+}
+
+.accueil-container {
+    display: flex;
+    height: 100vh;
+    justify-items: center;
+    justify-content: space-around;
+    align-items: center;
+    background-color: #007676;
+    background-image: url(../img/PNG/azulejos-bis.jpg);
+
+}
+
+.links {
+    margin-top: 50px;
 }
